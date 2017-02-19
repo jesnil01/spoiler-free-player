@@ -60,6 +60,27 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/match/:id',
+      name: 'match',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/MatchPage/reducer'),
+          import('containers/MatchPage/sagas'),
+          import('containers/MatchPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('match', reducer.default);
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

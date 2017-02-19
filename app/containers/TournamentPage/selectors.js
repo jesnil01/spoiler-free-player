@@ -11,13 +11,7 @@ const makeSelectTournament = () => createSelector(
   (tournamentState) => tournamentState.get('tournament')
 );
 
-const makeSelectSlug = () => createSelector(
-  selectTournament,
-  (tournamentState) => tournamentState.get('slug')
-);
-
 export {
   selectTournament,
-  makeSelectSlug,
   makeSelectTournament,
 };

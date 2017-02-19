@@ -10,7 +10,6 @@ const initialState = fromJS({
   tournament: false,
   loading: false,
   error: false,
-  slug: false,
 });
 
 function tournamentReducer(state = initialState, action) {
@@ -19,8 +18,7 @@ function tournamentReducer(state = initialState, action) {
       return state
         .set('loading', true)
         .set('error', false)
-        .set('tournament', false)
-        .set('slug', action.slug);
+        .set('tournament', false);
     case LOAD_TOURNAMENT_SUCCESS:
       return state
         .set('loading', false)

@@ -17,6 +17,9 @@ import { push } from 'react-router-redux';
 import { makeSelectTournament } from 'containers/TournamentPage/selectors';
 import { loadTournament } from 'containers/TournamentPage/actions';
 
+import Wrapper from 'components/Wrapper';
+import { Button } from 'components/Buttons';
+
 class TournamentPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   componentWillMount() {
@@ -29,10 +32,17 @@ class TournamentPage extends React.PureComponent { // eslint-disable-line react/
     const {
       tournament,
     } = this.props;
+    console.log(tournament);
 
     const listMatches = (list) => {
       return list.map((item, i) => {
-        return <button onClick={this.props.goToMatch} value={item.id} key={i}>{item.title}</button>
+        const team1 = item.safeToSpoil ? item.teams.team1 : <span title={item.teams.team1}>Hidden</span>;
+        const team2 = item.safeToSpoil ? item.teams.team2 : <span title={item.teams.team2}>Hidden</span>;
+        return (
+          <div style={{margin: '20px 0'}} key={i}>
+            <div><strong>{item.title}</strong>: {team1} - {team2} <Button onClick={this.props.goToMatch} value={item.id} active>Watch</Button></div>
+          </div>
+        );
       });
     }
 
@@ -44,17 +54,17 @@ class TournamentPage extends React.PureComponent { // eslint-disable-line react/
         return (
           <div key={i}>
             <h3>{item.title}</h3>
-            <div> LIst: {listMatches(item.matchList)}</div>
+            <div>{listMatches(item.matchList)}</div>
           </div>
         );
       });
     }
 
     return (
-      <div>
+      <Wrapper>
         {tournamentTitle}
         {blocks}
-      </div>
+      </Wrapper>
     );
   }
 }

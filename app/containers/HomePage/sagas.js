@@ -28,10 +28,7 @@ export function* getTournaments() {
 /**
  * Root saga manages watcher lifecycle
  */
-export function* githubData() {
-  // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-  // By using `takeLatest` only the result of the latest API call is applied.
-  // It returns task descriptor (just like fork) so we can continue execution
+export function* tournamentsData() {
   const watcher = yield takeLatest(LOAD_TOURNAMENTS, getTournaments);
 
   // Suspend execution until location changes
@@ -41,5 +38,5 @@ export function* githubData() {
 
 // Bootstrap sagas
 export default [
-  githubData,
+  tournamentsData,
 ];

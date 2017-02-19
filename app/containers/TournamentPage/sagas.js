@@ -6,13 +6,11 @@ import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects'
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { LOAD_TOURNAMENT } from 'containers/TournamentPage/constants';
 import { tournamentLoaded, tournamentLoadingError } from 'containers/TournamentPage/actions';
-import { makeSelectSlug } from 'containers/TournamentPage/selectors';
 
 import request from 'utils/request';
 
-export function* getTournament() {
-
-  const slug = yield select(makeSelectSlug());
+export function* getTournament(action) {
+  const { slug } = action;
   const requestURL = `/api/tournament/${slug}/`;
 
   try {
