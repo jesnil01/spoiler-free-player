@@ -2,7 +2,7 @@
  * Gets the repositories of the user from Github
  */
 
-import { take, call, put, select, cancel, takeLatest } from 'redux-saga/effects';
+import { take, call, put, cancel, takeLatest } from 'redux-saga/effects';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { LOAD_TOURNAMENT } from 'containers/TournamentPage/constants';
 import { tournamentLoaded, tournamentLoadingError } from 'containers/TournamentPage/actions';

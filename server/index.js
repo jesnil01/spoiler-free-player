@@ -13,9 +13,9 @@ const Prismic = require('prismic.io');
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 
-const apiUrl = "https://player.prismic.io/api";
+const apiUrl = 'https://player.prismic.io/api';
 
-function getTournaments(req, res) {
+getTournaments = (req, res) => {
   Prismic.api(apiUrl).then(function(api) {
     return api.query([
       Prismic.Predicates.at('document.type', 'tournament'),
@@ -40,9 +40,7 @@ function getTournaments(req, res) {
 app.use('/api/tournaments/', getTournaments);
 
 
-function getTeamnames(matchId){
-  console.log('Match id');
-  console.log(matchId);
+const getTeamnames = (matchId) => {
   return Prismic.api(apiUrl).then(function(api) {
     return api.getByID(
       matchId,
@@ -56,8 +54,7 @@ function getTeamnames(matchId){
       team1,
       team2,
     };
-    // console.log(result.data['match.team-1']);
-    // res.send('Error cross Query');
+
   }).catch( function(err){
     console.log(err);
     console.log('Catched error team request');
@@ -90,33 +87,10 @@ function getSingleTournamentBlock(id) {
       };
     });
 
-      // getTeamnames('WKjH5iUAAE9KwFU0');
-      // const team1 = getTeamnames(item.block.value.document.id);
-      // const teamNames = getTeamnames('WKjH5iUAAE9KwFU0');
       const teamNamePromises = matchList.map((item) => {
         const matchId = item.match.value.document.id;
         return getTeamnames(matchId);
       });
-
-
-
-      // Promise.all(teamNamePromises).then(values => {
-      //   console.log('Success all team promises bre');
-
-      //   // res.send(objectToSend);
-      //   // console.log(values);
-      //   console.log(returnMatchList);
-
-      //   // values.forEach((result, i) => {
-      //   //   returnMatchList[i].teams = item;
-      //   // });
-
-
-
-      // }, reason => {
-      //   console.log(reason)
-      // });
-
 
       return {
         title: title,
@@ -124,10 +98,9 @@ function getSingleTournamentBlock(id) {
         teamNamePromises,
       };
     
-  }).catch( function(err){
-    console.log(err);
-    console.log('Catched error cross');
-    // res.send('Error cross Query');
+  }).catch( (err) => {
+    // console.log(err);
+    // console.log('Catched error cross');
   });
 }
 
@@ -159,25 +132,12 @@ function getSingleTournament(req, res) {
 
       Promise.all(blockPromises).then(values => {
         objectToSend.blocks = values;
-        
 
-        // console.log('Success all promises');
-        // console.log(values)
         let allProm = [];
         values.forEach((val) => {
           prom = [].concat(...val.teamNamePromises);
           allProm.push(prom);
         });
-
-        // console.log(allProm);
-
-        // if(allProm.length > 1){
-        //   allProm = [].concat(...allProm);
-        // }
-        
-        // objectToSend.allProm = allProm;
-
-        // console.log('allProm', allProm);
 
         var promise4all = Promise.all(
            allProm.map(function(innerPromiseArray) {
@@ -185,37 +145,20 @@ function getSingleTournament(req, res) {
            })
         );
 
-        // console.log(promise4all);
-
         promise4all.then(function(promiseGroupResult) {
-
           //Insert teams
           promiseGroupResult.map((teamNamesBlock, blockIndex) => {
             teamNamesBlock.map((teamNames, matchIndex) => {
               objectToSend.blocks[blockIndex].matchList[matchIndex].teams = teamNames;
-              // console.log(teamNames);
             });
           });
-
 
           objectToSend.requestTime = `${Date.now() - requestStart} ms`;
           res.send(objectToSend);
           // promiseGroupResult is the actual result of each promise group
           // and you'll be able to get each result this way: promiseGroupResult.somePropertyName
         });
-
-        //Check for Team name Promises
-        // Promise.all(allProm).then(vals => {
-        //   console.log('NOW FUCKING ALL INNER IS DONE');
-        //   console.log(vals);
-        // }, reas => {
-        //   console.log(reas);
-        // });
-
-        
-
-      }, reason => {
-        console.log(reason)
+      }, (reason) => {
       });
     }
   }).catch( function(err){
@@ -226,19 +169,15 @@ function getSingleTournament(req, res) {
 
 app.use('/api/tournament/:uid', getSingleTournament);
 
-
-
-function getMatch(req, res) {
-  Prismic.api(apiUrl).then(function(api) {
+const getMatch = (req, res) => {
+  Prismic.api(apiUrl).then((api) => {
     const { id } = req.params;
     return api.getByID(
       id,
-      {fetchLinks: ['team.name']}
+      { fetchLinks: ['team.name'] }
     );
-  }).then( function(result) {
-
-    const games = result.data['match.games'].value.map(item => {
-      console.log(item);
+  }).then((result) => {
+    const games = result.data['match.games'].value.map((item) => {
       let id = false;
       let gameStart = 0;
       let winner = 0;
@@ -270,14 +209,12 @@ function getMatch(req, res) {
           uid: result.data['match.team-2'].value.document.uid,
           name: result.data['match.team-2'].value.document.data.team.name.value,
         },
-      ]
+      ],
     };
 
     res.send(returnObj);
-  }).catch( function(err){
-    console.log(err);
-    console.log('Catched error match');
-    res.send('Error');
+  }).catch((err) => {
+    res.send(err);
   });
 }
 
