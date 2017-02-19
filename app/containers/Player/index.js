@@ -1,6 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+// import { push } from 'react-router-redux';
+
+import { makeSelectVideoObj, makeSelectPlaying } from 'containers/Player/selectors';
+import { videoLoaded, toggleVideoStatus } from 'containers/Player/actions';
+
 import YoutubePlayer from 'react-youtube';
+
+import { Button } from 'components/Buttons';
 import PlayerHolder from './PlayerHolder';
+import Controls from './Controls';
 
 class Player extends React.PureComponent {
   constructor(props){
@@ -22,35 +32,58 @@ class Player extends React.PureComponent {
      };
   }
 
-  onReady = (e) => {
-    // console.log(e);
-    e.target.setVolume(0);
-  }
+  // onStateChange = (e) =>{
+  //   console.log('On State changed', e.target.getAvailableQualityLevels());
+  // }
 
   render() {
     const {
       id,
+      video,
+      playing,
     } = this.props;
 
-    const noVideoMessage = !id ? 'There was no game played' : '';
+    const playPauseButton = !playing ? <Button onClick={this.props.playVideo}>Play</Button> : <Button onClick={this.props.pauseVideo}>Pause</Button>;
+
     const player = id ? <YoutubePlayer 
         // id="player_iframe"
         videoId={id}
         opts={this.opts}
-        onReady={this.onReady}
-        // onStateChange={this.onStateChange}
+        onReady={this.props.onReady}
+        onStateChange={this.onStateChange}
         // onPlaybackQualityChange={this.onPlaybackQualityChange}
         // onPlay={this.onPlay.bind(this)}
         // onPause={this.onPause.bind(this)}
-      /> : '';
+      /> : 'There was no game played';
 
     return (
+      <div>
       <PlayerHolder>
-        {noVideoMessage}
         {player}
       </PlayerHolder>
+      <Controls>
+        {playPauseButton}
+      </Controls>
+      </div>
     );
   }
 };
 
-export default Player;
+export function mapDispatchToProps(dispatch) {
+  return {
+    onReady: (e) => dispatch(videoLoaded(e.target)),
+    playVideo: (e) => dispatch(toggleVideoStatus(true)),
+    pauseVideo: (e) => dispatch(toggleVideoStatus(false)),
+    // changeGame: (e) => dispatch(changeGame(parseInt(e.target.value))),
+    // goToMatch: (e) => dispatch(push(`/match/${e.target.value}/`)),
+    // goHome: (e) => dispatch(push(`/`)),
+  };
+}
+
+const mapStateToProps = createStructuredSelector({
+  video: makeSelectVideoObj(),
+  playing: makeSelectPlaying(),
+  // activeGame: makeSelectActiveGame(),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

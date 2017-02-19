@@ -38,8 +38,8 @@ class MatchPage extends React.PureComponent { // eslint-disable-line react/prefe
       return <Button onClick={this.props.changeGame} active={activeGame === i} key={i} value={i}>Game {i+1}</Button>;
     });
 
-    console.log(match);   
-    console.log(activeGame);
+    // console.log(match);   
+    // console.log(activeGame);
 
     let team1, team2, player;
     if(match){
