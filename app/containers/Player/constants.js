@@ -1,3 +1,11 @@
 export const VIDEO_LOADED = 'boilerplate/Player/VIDEO_LOADED';
-export const PLAY_VIDEO = 'boilerplate/Player/PLAY_VIDEO';
-export const PAUSE_VIDEO = 'boilerplate/Player/PAUSE_VIDEO';
+export const CURRENT_QUALITY_UPDATED = 'boilerplate/Player/CURRENT_QUALITY_UPDATED';
+export const QUALITY_LEVELS_LOADED = 'boilerplate/Player/QUALITY_LEVELS_LOADED';
+export const VIDEO_PLAY = 'boilerplate/Player/VIDEO_PLAY';
+export const VIDEO_PAUSE = 'boilerplate/Player/VIDEO_PAUSE';
+export const FORWARD_VIDEO = 'boilerplate/Player/FORWARD_VIDEO';
+export const REWIND_VIDEO = 'boilerplate/Player/REWIND_VIDEO';
+export const ENTER_FULLSCREEN = 'boilerplate/Player/ENTER_FULLSCREEN';
+export const EXIT_FULLSCREEN = 'boilerplate/Player/EXIT_FULLSCREEN';
+export const SET_VOLUME = 'boilerplate/Player/SET_VOLUME';
+export const SEEK_TO = 'boilerplate/Player/SEEK_TO';

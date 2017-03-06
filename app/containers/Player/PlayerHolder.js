@@ -7,7 +7,7 @@ const Outer = styled.div`
 
 const Wrap = styled.div`
   margin:0 auto;
-  max-width: 1280px;
+  max-width: ${props => props.fullscreen ? 'none' : '1280px'};
   width: 100%;
 `;
 
@@ -29,7 +29,7 @@ const Inner = styled.div`
 `;
 
 function PlayerHolder(props){
-  return(<Outer><Wrap><Inner id="fs" onMouseMove={props.onMouseMove}>{props.children}</Inner></Wrap></Outer>)
+  return(<Outer><Wrap fullscreen={props.fullscreen}><Inner id="fs" onMouseMove={props.onMouseMove}>{props.children}</Inner></Wrap></Outer>)
 }
 
 export default PlayerHolder;

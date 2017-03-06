@@ -46,8 +46,9 @@ class MatchPage extends React.PureComponent { // eslint-disable-line react/prefe
       team1 = match.teams[0].name;
       team2 = match.teams[1].name;
 
-      const videoId = match.games[activeGame].id;
-      player = <Player id={videoId}/>;
+      const { id, gameStart, winner } = match.games[activeGame];
+
+      player = <Player id={id} gameStart={gameStart} winner={winner} />;
     }
 
     return (
