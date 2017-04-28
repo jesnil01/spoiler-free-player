@@ -17,6 +17,8 @@ import { push } from 'react-router-redux';
 import { loadTournaments } from 'containers/App/actions';
 import { makeSelectTournaments } from 'containers/App/selectors';
 
+import Wrapper from 'components/Wrapper';
+
 export class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   componentWillMount(){
@@ -33,15 +35,15 @@ export class HomePage extends React.PureComponent { // eslint-disable-line react
 
     const tournamentList = !tournaments ? '' : tournaments.map((item, i) => {
       return (
-        <button onClick={this.props.goToTournament} value={item.slug} key={i}>{item.title}</button>
+        <div><button onClick={this.props.goToTournament} value={item.slug} key={i}>{item.title}</button></div>
       );
     });
 
     return (
-      <div>
+      <Wrapper>
         <h1>Tournaments</h1>
         {tournamentList}
-      </div>
+      </Wrapper>
     );
   }
 }

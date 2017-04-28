@@ -1,6 +1,7 @@
 import React from 'react';
 import withProgressBar from 'components/ProgressBar';
 import Logo from './Logo';
+import Wrapper from 'components/Wrapper';
 
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -11,7 +12,9 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
   render() {
     return (
       <div>
-        <Logo to="/">Spoiler free</Logo>
+        <Wrapper>
+          <Logo to="/">Dota2 vods</Logo>
+        </Wrapper>
         {React.Children.toArray(this.props.children)}
       </div>
     );

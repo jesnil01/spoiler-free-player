@@ -20,6 +20,8 @@ import { loadMatch, changeGame } from 'containers/MatchPage/actions';
 import Wrapper from 'components/Wrapper';
 import Player from 'containers/Player';
 import { Button } from 'components/Buttons';
+import { Tabs, Tab } from 'components/Tabs';
+import { Teams, Team } from 'components/Teams';
 
 class MatchPage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
@@ -35,7 +37,7 @@ class MatchPage extends React.PureComponent { // eslint-disable-line react/prefe
     } = this.props;
 
     const listGames = !match ? '' : match.games.map((game, i) => {
-      return <Button onClick={this.props.changeGame} active={activeGame === i} key={i} value={i}>Game {i+1}</Button>;
+      return <Tab onClick={this.props.changeGame} active={activeGame === i} key={i} value={i}>Game {i+1}</Tab>;
     });
 
     // console.log(match);   
@@ -53,8 +55,11 @@ class MatchPage extends React.PureComponent { // eslint-disable-line react/prefe
 
     return (
       <Wrapper>
-        {team1} - {team2}
-        <div>{listGames}</div>
+        <Teams>
+          <Team>{team1}</Team>
+          <Team>{team2}</Team>
+        </Teams>
+        <Tabs>{listGames}</Tabs>
         {player}
       </Wrapper>
     );
